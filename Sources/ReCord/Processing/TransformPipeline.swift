@@ -10,7 +10,7 @@ final class TransformPipeline {
 
     init(context: CIContext = CIContext(options: [.cacheIntermediates: false])) {
         self.context = context
-        self.cursorRenderer = CursorRenderer(scale: 1.0)
+        self.cursorRenderer = CursorRenderer(ringScale: 1.0)
     }
 
     func render(

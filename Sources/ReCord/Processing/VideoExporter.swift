@@ -11,6 +11,9 @@ struct ExportOptions: Sendable {
     var includeWatermark: Bool
     var followMouse: Bool
     var frameRate: Int
+    var zoomRampMultiplier: Double
+    var zoomSmoothingWindow: TimeInterval
+    var cameraSmoothingWindow: TimeInterval
 
     static let free1080p = ExportOptions(
         outputSize: CGSize(width: 1920, height: 1080),
@@ -18,7 +21,10 @@ struct ExportOptions: Sendable {
         bitrate: 12_000_000,
         includeWatermark: true,
         followMouse: true,
-        frameRate: 60
+        frameRate: 60,
+        zoomRampMultiplier: 1.5,
+        zoomSmoothingWindow: 0.18,
+        cameraSmoothingWindow: 0.75
     )
 
     static let pro4K = ExportOptions(
@@ -27,7 +33,10 @@ struct ExportOptions: Sendable {
         bitrate: 35_000_000,
         includeWatermark: false,
         followMouse: true,
-        frameRate: 60
+        frameRate: 60,
+        zoomRampMultiplier: 1.5,
+        zoomSmoothingWindow: 0.18,
+        cameraSmoothingWindow: 0.75
     )
 }
 
@@ -138,7 +147,13 @@ final class VideoExporter {
             displaySize: session.displaySize.cgSize,
             cursorEvents: session.cursorEvents,
             keyframes: session.zoomKeyframes,
-            configuration: ZoomEngineConfiguration.default(outputSize: options.outputSize, followMouse: options.followMouse)
+            configuration: ZoomEngineConfiguration.default(
+                outputSize: options.outputSize,
+                followMouse: options.followMouse,
+                zoomRampMultiplier: options.zoomRampMultiplier,
+                zoomSmoothingWindow: options.zoomSmoothingWindow,
+                cameraSmoothingWindow: options.cameraSmoothingWindow
+            )
         )
         let pipeline = TransformPipeline()
         let videoDuration = try await videoTrack.load(.timeRange).duration.seconds

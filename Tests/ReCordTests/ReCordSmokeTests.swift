@@ -66,13 +66,16 @@ final class ReCordSmokeTests: XCTestCase {
             displaySize: CGSize(width: 1000, height: 800),
             cursorEvents: events,
             keyframes: [keyframe],
-            configuration: .default(outputSize: CGSize(width: 1000, height: 800))
+            configuration: .default(
+                outputSize: CGSize(width: 1000, height: 800),
+                cameraSmoothingWindow: 0.22
+            )
         )
 
         let state = engine.state(at: 0.9)
 
-        XCTAssertGreaterThan(state.cameraCenter.x, 560)
-        XCTAssertGreaterThan(state.cameraCenter.y, 360)
+        XCTAssertGreaterThan(state.cameraCenter.x, 400)
+        XCTAssertGreaterThan(state.cameraCenter.y, 250)
         XCTAssertEqual(state.cursorPosition.x, 650, accuracy: 1)
         XCTAssertEqual(state.cursorPosition.y, 450, accuracy: 1)
     }
@@ -122,7 +125,10 @@ final class ReCordSmokeTests: XCTestCase {
                 bitrate: width >= 1920 ? 16_000_000 : 2_500_000,
                 includeWatermark: false,
                 followMouse: true,
-                frameRate: frameRate
+                frameRate: frameRate,
+                zoomRampMultiplier: 1.5,
+                zoomSmoothingWindow: 0.18,
+                cameraSmoothingWindow: 0.75
             ),
             progress: { _ in },
             log: { print($0) }

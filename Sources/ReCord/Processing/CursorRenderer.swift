@@ -3,14 +3,38 @@ import CoreImage
 import Foundation
 
 final class CursorRenderer {
-    private let cursorImage: CIImage
+    private let systemCursor: CIImage
+    private let systemCursorHotspot: CGPoint
     private let clickRingImage: CIImage
-    private let assetScale: CGFloat
+    private let ringAssetScale: CGFloat
 
-    init(scale: CGFloat = 4.0) {
-        self.assetScale = scale
-        self.cursorImage = CursorRenderer.makeCursorImage(scale: scale)
-        self.clickRingImage = CursorRenderer.makeClickRingImage(scale: scale)
+    init(ringScale: CGFloat = 4.0) {
+        self.ringAssetScale = ringScale
+
+        let cursor = NSCursor.arrow
+        let rawCIImage: CIImage
+        let rawPixelSize: CGSize
+        if let tiff = cursor.image.tiffRepresentation,
+           let ci = CIImage(data: tiff) {
+            rawCIImage = ci
+            rawPixelSize = ci.extent.size
+        } else {
+            rawPixelSize = CGSize(width: 32, height: 32)
+            rawCIImage = CIImage(color: .white).cropped(to: CGRect(origin: .zero, size: rawPixelSize))
+        }
+
+        let pointSize = cursor.image.size
+        let pixelScale: CGFloat = pointSize.width > 0 ? rawPixelSize.width / pointSize.width : 1.0
+
+        // Normalize cursor to point dimensions so displayScale maps 1:1 at 1080p
+        let normalizeTransform = CGAffineTransform(scaleX: 1.0 / pixelScale, y: 1.0 / pixelScale)
+        self.systemCursor = rawCIImage.transformed(by: normalizeTransform)
+        self.systemCursorHotspot = CGPoint(
+            x: cursor.hotSpot.x,
+            y: cursor.hotSpot.y
+        )
+
+        self.clickRingImage = CursorRenderer.makeClickRingImage(scale: ringScale)
     }
 
     func image(for state: ZoomFrameState, viewport: CGRect, outputSize: CGSize) -> CIImage? {
@@ -19,19 +43,19 @@ final class CursorRenderer {
         let localX = (state.cursorPosition.x - viewport.minX) / viewport.width * outputSize.width
         let localY = outputSize.height - ((state.cursorPosition.y - viewport.minY) / viewport.height * outputSize.height)
         let displayScale = max(0.9, min(1.8, outputSize.width / 1920))
-        let cursorScale = displayScale / assetScale
 
-        let scaledCursor = cursorImage.transformed(by: CGAffineTransform(scaleX: cursorScale, y: cursorScale))
+        let cursorScale = displayScale
+        let scaledCursor = systemCursor.transformed(by: CGAffineTransform(scaleX: cursorScale, y: cursorScale))
         let cursor = scaledCursor.transformed(
             by: CGAffineTransform(
-                translationX: localX - 5 * displayScale,
-                y: localY - scaledCursor.extent.height + 6 * displayScale
+                translationX: localX - systemCursorHotspot.x * cursorScale,
+                y: localY - systemCursorHotspot.y * cursorScale
             )
         )
 
         guard state.clickPulse > 0 else { return cursor }
 
-        let ringScale = (1.0 + state.clickPulse * 0.45) * cursorScale
+        let ringScale = (1.0 + state.clickPulse * 0.45) * displayScale / ringAssetScale
         let ring = clickRingImage
             .transformed(by: CGAffineTransform(scaleX: ringScale, y: ringScale))
             .transformed(
@@ -42,42 +66,6 @@ final class CursorRenderer {
             )
 
         return cursor.composited(over: ring)
-    }
-
-    private static func makeCursorImage(scale: CGFloat) -> CIImage {
-        let size = CGSize(width: 42 * scale, height: 56 * scale)
-        let image = NSImage(size: size)
-        image.lockFocus()
-        NSGraphicsContext.current?.imageInterpolation = .high
-        NSGraphicsContext.current?.shouldAntialias = true
-
-        NSColor.black.withAlphaComponent(0.28).setFill()
-        let shadow = NSBezierPath()
-        shadow.move(to: CGPoint(x: 10 * scale, y: 52 * scale))
-        shadow.line(to: CGPoint(x: 10 * scale, y: 7 * scale))
-        shadow.line(to: CGPoint(x: 37 * scale, y: 33 * scale))
-        shadow.line(to: CGPoint(x: 25 * scale, y: 35 * scale))
-        shadow.line(to: CGPoint(x: 32 * scale, y: 52 * scale))
-        shadow.close()
-        shadow.fill()
-
-        NSColor.white.setFill()
-        NSColor.black.withAlphaComponent(0.78).setStroke()
-        let path = NSBezierPath()
-        path.lineJoinStyle = .round
-        path.lineCapStyle = .round
-        path.lineWidth = 1.8 * scale
-        path.move(to: CGPoint(x: 7 * scale, y: 54 * scale))
-        path.line(to: CGPoint(x: 7 * scale, y: 8 * scale))
-        path.line(to: CGPoint(x: 36 * scale, y: 35 * scale))
-        path.line(to: CGPoint(x: 23 * scale, y: 36 * scale))
-        path.line(to: CGPoint(x: 30 * scale, y: 53 * scale))
-        path.close()
-        path.fill()
-        path.stroke()
-
-        image.unlockFocus()
-        return CIImage(data: image.tiffRepresentation ?? Data()) ?? CIImage(color: .white).cropped(to: CGRect(origin: .zero, size: size))
     }
 
     private static func makeClickRingImage(scale: CGFloat) -> CIImage {

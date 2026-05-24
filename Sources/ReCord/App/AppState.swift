@@ -20,6 +20,9 @@ final class AppState: ObservableObject {
     @Published var screenRecordingStatus: PermissionStatus = PermissionsManager.screenRecordingStatus
     @Published var accessibilityStatus: PermissionStatus = PermissionsManager.accessibilityStatus
     @Published var microphoneStatus: PermissionStatus = PermissionsManager.microphoneStatus
+    @Published var zoomRampMultiplier: Double = ReCordStorage.zoomRampMultiplier
+    @Published var zoomSmoothingWindow: Double = ReCordStorage.zoomSmoothingWindow
+    @Published var cameraSmoothingWindow: Double = ReCordStorage.cameraSmoothingWindow
 
     let licenseManager = LicenseManager()
 
@@ -68,6 +71,24 @@ final class AppState: ObservableObject {
         screenRecordingStatus = PermissionsManager.screenRecordingStatus
         accessibilityStatus = PermissionsManager.accessibilityStatus
         microphoneStatus = PermissionsManager.microphoneStatus
+    }
+
+    func setZoomRampMultiplier(_ value: Double) {
+        let clamped = max(0.2, min(4.0, value))
+        ReCordStorage.zoomRampMultiplier = clamped
+        zoomRampMultiplier = clamped
+    }
+
+    func setZoomSmoothingWindow(_ value: Double) {
+        let clamped = max(0.0, min(2.0, value))
+        ReCordStorage.zoomSmoothingWindow = clamped
+        zoomSmoothingWindow = clamped
+    }
+
+    func setCameraSmoothingWindow(_ value: Double) {
+        let clamped = max(0.05, min(4.0, value))
+        ReCordStorage.cameraSmoothingWindow = clamped
+        cameraSmoothingWindow = clamped
     }
 
     func loadCaptureTargets() async {

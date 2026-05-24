@@ -10,25 +10,26 @@ struct EditorView: View {
                 VStack(spacing: 0) {
                     VideoPreview(session: session)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.black.opacity(0.92))
+                        .background(Color.black)
 
                     TimelineView(session: session)
-                        .frame(height: 132)
-                        .background(.regularMaterial)
+                        .frame(height: 120)
+                        .background(Color(nsColor: .controlBackgroundColor))
                 }
                 .safeAreaInset(edge: .trailing) {
                     InspectorView(session: session)
-                        .frame(width: 280)
-                        .background(.thinMaterial)
+                        .frame(width: 260)
+                        .background(Color(nsColor: .controlBackgroundColor))
                 }
             } else {
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     Image(systemName: "record.circle")
-                        .font(.system(size: 54, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                    Text("No Recording Selected")
-                        .font(.title2.bold())
-                    Text("Start a recording to create an editable ReCord project.")
+                        .font(.system(size: 48, weight: .light))
+                        .foregroundStyle(.secondary.opacity(0.6))
+                    Text("No Recording")
+                        .font(.title3.weight(.medium))
+                    Text("Start a recording to create an editable project.")
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -36,7 +37,7 @@ struct EditorView: View {
         }
         .overlay(alignment: .bottom) {
             if appState.isExporting {
-                ExportProgressOverlay(progress: appState.exportProgress, logs: appState.exportLogLines)
+                ExportProgressOverlay()
                     .padding(.bottom, 24)
             }
         }
@@ -44,47 +45,47 @@ struct EditorView: View {
 }
 
 private struct ExportProgressOverlay: View {
-    let progress: Double
-    let logs: [String]
+    @EnvironmentObject private var appState: AppState
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Exporting")
-                    .font(.headline)
+                    .font(.subheadline.weight(.semibold))
                 Spacer()
-                Text("\(Int(progress * 100))%")
-                    .monospacedDigit()
+                Text("\(Int(appState.exportProgress * 100))%")
+                    .font(.subheadline.monospacedDigit())
                     .foregroundStyle(.secondary)
             }
 
-            ProgressView(value: progress)
+            ProgressView(value: appState.exportProgress)
                 .progressViewStyle(.linear)
+                .tint(.blue)
 
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 4) {
-                        ForEach(Array(logs.enumerated()), id: \.offset) { index, line in
+                        ForEach(Array(appState.exportLogLines.enumerated()), id: \.offset) { index, line in
                             Text(line)
-                                .font(.system(.caption, design: .monospaced))
+                                .font(.system(.caption2, design: .monospaced))
                                 .foregroundStyle(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .id(index)
                         }
                     }
                 }
-                .frame(height: 96)
-                .onChange(of: logs.count) { _ in
-                    if let last = logs.indices.last {
+                .frame(height: 80)
+                .onChange(of: appState.exportLogLines.count) { _ in
+                    if let last = appState.exportLogLines.indices.last {
                         proxy.scrollTo(last, anchor: .bottom)
                     }
                 }
             }
         }
         .padding(14)
-        .frame(width: 520)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-        .shadow(radius: 18)
+        .frame(width: 480)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
+        .shadow(radius: 20)
     }
 }
 
@@ -106,16 +107,15 @@ private struct VideoPreview: View {
                     .allowsHitTesting(false)
             }
             .overlay(alignment: .topLeading) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(session.exportedVideoURL == nil ? "Raw Preview" : "Exported Preview")
-                        .font(.caption.bold())
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(.ultraThinMaterial, in: Capsule())
-                    Text(session.rawVideoURL.lastPathComponent)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    Image(systemName: session.exportedVideoURL == nil ? "eye" : "checkmark.circle.fill")
+                        .font(.caption)
+                    Text(session.exportedVideoURL == nil ? "Preview" : "Exported")
+                        .font(.caption.weight(.medium))
                 }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .background(.ultraThinMaterial, in: Capsule())
                 .padding()
             }
     }
@@ -184,7 +184,12 @@ private struct ZoomPreviewOverlay: View {
             displaySize: session.displaySize.cgSize,
             cursorEvents: session.cursorEvents,
             keyframes: session.zoomKeyframes,
-            configuration: .default(outputSize: session.displaySize.cgSize)
+            configuration: .default(
+                outputSize: session.displaySize.cgSize,
+                zoomRampMultiplier: ReCordStorage.zoomRampMultiplier,
+                zoomSmoothingWindow: ReCordStorage.zoomSmoothingWindow,
+                cameraSmoothingWindow: ReCordStorage.cameraSmoothingWindow
+            )
         )
         return engine.state(at: currentTime)
     }
@@ -198,33 +203,33 @@ private struct ZoomPreviewOverlay: View {
 
             ZStack(alignment: .topLeading) {
                 Rectangle()
-                    .strokeBorder(.white.opacity(0.08), lineWidth: 1)
+                    .strokeBorder(.white.opacity(0.06), lineWidth: 1)
                     .frame(width: fitted.width, height: fitted.height)
                     .offset(x: fitted.minX, y: fitted.minY)
 
                 Rectangle()
-                    .stroke(.yellow.opacity(0.9), style: StrokeStyle(lineWidth: 2, dash: [7, 5]))
-                    .background(Color.yellow.opacity(0.08))
+                    .stroke(.white.opacity(0.7), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                    .background(Color.white.opacity(0.04))
                     .frame(width: viewport.width, height: viewport.height)
                     .offset(x: viewport.minX, y: viewport.minY)
 
                 Circle()
-                    .fill(state.clickPulse > 0 ? Color.orange.opacity(0.35) : Color.clear)
-                    .frame(width: 42 + state.clickPulse * 28, height: 42 + state.clickPulse * 28)
-                    .offset(x: cursor.x - 21 - state.clickPulse * 14, y: cursor.y - 21 - state.clickPulse * 14)
+                    .fill(state.clickPulse > 0 ? Color.blue.opacity(0.3) : Color.clear)
+                    .frame(width: 38 + state.clickPulse * 24, height: 38 + state.clickPulse * 24)
+                    .offset(x: cursor.x - 19 - state.clickPulse * 12, y: cursor.y - 19 - state.clickPulse * 12)
 
                 Circle()
                     .fill(.white)
-                    .frame(width: 8, height: 8)
-                    .shadow(radius: 4)
-                    .offset(x: cursor.x - 4, y: cursor.y - 4)
+                    .frame(width: 6, height: 6)
+                    .shadow(radius: 3)
+                    .offset(x: cursor.x - 3, y: cursor.y - 3)
 
-                Text("\(String(format: "%.1f", state.zoom))x zoom preview")
-                    .font(.caption.bold())
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
+                Text("\(String(format: "%.1f", state.zoom))×")
+                    .font(.caption2.weight(.semibold).monospacedDigit())
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
                     .background(.ultraThinMaterial, in: Capsule())
-                    .offset(x: fitted.minX + 12, y: fitted.maxY - 38)
+                    .offset(x: fitted.minX + 10, y: fitted.maxY - 30)
             }
         }
     }

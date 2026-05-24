@@ -17,17 +17,32 @@ struct ZoomEngineConfiguration: Sendable {
     var cursorIdleHideDelay: TimeInterval
     var cameraSmoothingWindow: TimeInterval
     var maxZoom: Double
+    var zoomRampMultiplier: Double
+    var zoomSmoothingWindow: TimeInterval
 
-    static func `default`(outputSize: CGSize, followMouse: Bool = true) -> ZoomEngineConfiguration {
+    static func `default`(
+        outputSize: CGSize,
+        followMouse: Bool = true,
+        zoomRampMultiplier: Double = 1.5,
+        zoomSmoothingWindow: TimeInterval = 1.0,
+        cameraSmoothingWindow: TimeInterval = 2.0
+    ) -> ZoomEngineConfiguration {
         ZoomEngineConfiguration(
             outputSize: outputSize,
             baseZoom: 1.0,
             followMouse: followMouse,
             cursorIdleHideDelay: 2.5,
-            cameraSmoothingWindow: 0.22,
-            maxZoom: 4.0
+            cameraSmoothingWindow: cameraSmoothingWindow,
+            maxZoom: 4.0,
+            zoomRampMultiplier: zoomRampMultiplier,
+            zoomSmoothingWindow: zoomSmoothingWindow
         )
     }
+}
+
+private struct DragPeriod {
+    let start: TimeInterval
+    let end: TimeInterval
 }
 
 final class ZoomEngine {
@@ -35,6 +50,7 @@ final class ZoomEngine {
     private let cursorEvents: [CursorEvent]
     private let keyframes: [ZoomKeyframe]
     private let config: ZoomEngineConfiguration
+    private let dragPeriods: [DragPeriod]
 
     init(
         displaySize: CGSize,
@@ -46,26 +62,65 @@ final class ZoomEngine {
         self.cursorEvents = cursorEvents.sorted { $0.timestamp < $1.timestamp }
         self.keyframes = keyframes.sorted { $0.timestamp < $1.timestamp }
         self.config = configuration
+        self.dragPeriods = Self.detectDragPeriods(from: cursorEvents)
     }
 
     func state(at time: TimeInterval) -> ZoomFrameState {
         let cursor = cursorPosition(at: time)
-        let zoom = zoomLevel(at: time)
+        let rawZoom = zoomTarget(at: time)
+        let smoothedZoom = smoothedZoom(at: time, target: rawZoom)
         let targetCenter = targetCenter(at: time, cursor: cursor)
         let smoothedCenter = smoothedCameraCenter(at: time, target: targetCenter)
-        let viewport = viewportRect(center: smoothedCenter, zoom: zoom)
+        let viewport = viewportRect(center: smoothedCenter, zoom: smoothedZoom)
         let visible = cursorVisible(at: time)
         let pulse = clickPulse(at: time)
 
         return ZoomFrameState(
             viewport: viewport,
-            zoom: zoom,
+            zoom: smoothedZoom,
             cameraCenter: smoothedCenter,
             cursorPosition: cursor,
             cursorVisible: visible,
             clickPulse: pulse
         )
     }
+
+    // MARK: - Drag Detection
+
+    private static func detectDragPeriods(from events: [CursorEvent]) -> [DragPeriod] {
+        let sorted = events.sorted { $0.timestamp < $1.timestamp }
+        var periods: [DragPeriod] = []
+        var downEvent: CursorEvent?
+        var moveCount = 0
+
+        for event in sorted {
+            switch event.kind {
+            case .leftDown, .rightDown:
+                downEvent = event
+                moveCount = 0
+            case .move:
+                if downEvent != nil { moveCount += 1 }
+            case .leftUp, .rightUp:
+                if let down = downEvent, moveCount >= 3 {
+                    let duration = event.timestamp - down.timestamp
+                    if duration >= 0.12 {
+                        periods.append(DragPeriod(start: down.timestamp, end: event.timestamp))
+                    }
+                }
+                downEvent = nil
+                moveCount = 0
+            default:
+                break
+            }
+        }
+        return periods
+    }
+
+    private func isDragging(at time: TimeInterval) -> Bool {
+        dragPeriods.contains { time >= $0.start && time <= $0.end }
+    }
+
+    // MARK: - Cursor Position
 
     private func cursorPosition(at time: TimeInterval) -> CGPoint {
         guard !cursorEvents.isEmpty else {
@@ -96,6 +151,8 @@ final class ZoomEngine {
         )
     }
 
+    // MARK: - Camera / Zoom Targets
+
     private func targetCenter(at time: TimeInterval, cursor: CGPoint) -> CGPoint {
         guard config.followMouse else {
             return nearestKeyframe(to: time)?.position.cgPoint ?? cursor
@@ -108,29 +165,58 @@ final class ZoomEngine {
         return clampedPoint(cursor)
     }
 
-    private func zoomLevel(at time: TimeInterval) -> Double {
+    private func zoomTarget(at time: TimeInterval) -> Double {
+        if isDragging(at: time) { return config.baseZoom }
+
         var result = config.baseZoom
+        let multiplier = max(0.1, config.zoomRampMultiplier)
 
         for keyframe in keyframes {
+            let ramp = max(keyframe.duration * multiplier, 0.1)
             let start = keyframe.timestamp
-            let rampInEnd = start + keyframe.duration
+            let rampInEnd = start + ramp
             let holdEnd = rampInEnd + keyframe.hold
-            let rampOutEnd = holdEnd + keyframe.duration
+            let rampOutEnd = holdEnd + ramp
 
             if time < start || time > rampOutEnd { continue }
 
+            let currentZoom: Double
             if time <= rampInEnd {
-                let p = easeInOutCubic((time - start) / max(keyframe.duration, 0.001))
-                result = lerp(config.baseZoom, keyframe.zoom, p)
+                let p = easeInOutCubic((time - start) / ramp)
+                currentZoom = lerp(config.baseZoom, keyframe.zoom, p)
             } else if time <= holdEnd {
-                result = keyframe.zoom
+                currentZoom = keyframe.zoom
             } else {
-                let p = easeInOutCubic((time - holdEnd) / max(keyframe.duration, 0.001))
-                result = lerp(keyframe.zoom, config.baseZoom, p)
+                let p = easeInOutCubic((time - holdEnd) / ramp)
+                currentZoom = lerp(keyframe.zoom, config.baseZoom, p)
             }
+            result = max(result, currentZoom)
         }
 
         return clamped(result, config.baseZoom, config.maxZoom)
+    }
+
+    // MARK: - Smoothing
+
+    private func smoothedZoom(at time: TimeInterval, target: Double) -> Double {
+        let window = max(config.zoomSmoothingWindow, 0.001)
+        guard window > 0.001 else { return target }
+        let samples = 50
+        var weighted = 0.0
+        var totalWeight = 0.0
+
+        for index in 0..<samples {
+            let offset = -Double(index) / Double(samples - 1) * window
+            let sampleTime = max(0, time + offset)
+            let zoom = zoomTarget(at: sampleTime)
+            let t = Double(index) / Double(samples - 1)
+            let weight = exp(-t * 5.0)
+            weighted += zoom * weight
+            totalWeight += weight
+        }
+
+        guard totalWeight > 0 else { return target }
+        return clamped(weighted / totalWeight, config.baseZoom, config.maxZoom)
     }
 
     private func smoothedCameraCenter(at time: TimeInterval, target: CGPoint) -> CGPoint {
@@ -139,17 +225,17 @@ final class ZoomEngine {
         }
 
         let window = max(config.cameraSmoothingWindow, 0.01)
-        let samples = 9
+        let samples = 60
         var weightedX = 0.0
         var weightedY = 0.0
         var totalWeight = 0.0
 
         for index in 0..<samples {
-            let offset = (Double(index) / Double(samples - 1) - 0.5) * window
+            let offset = -Double(index) / Double(samples - 1) * window
             let sampleTime = max(0, time + offset)
             let point = cursorPosition(at: sampleTime)
-            let normalizedDistance = abs(offset) / (window / 2)
-            let weight = max(0.05, 1 - normalizedDistance)
+            let t = Double(index) / Double(samples - 1)
+            let weight = exp(-t * 5.0)
             weightedX += point.x * weight
             weightedY += point.y * weight
             totalWeight += weight
@@ -159,12 +245,7 @@ final class ZoomEngine {
         return clampedPoint(CGPoint(x: weightedX / totalWeight, y: weightedY / totalWeight))
     }
 
-    private func targetCenterWithoutSmoothing(at time: TimeInterval, cursor: CGPoint) -> CGPoint {
-        guard config.followMouse else {
-            return nearestKeyframe(to: time)?.position.cgPoint ?? cursor
-        }
-        return activeKeyframe(at: time) == nil ? CGPoint(x: displaySize.width / 2, y: displaySize.height / 2) : clampedPoint(cursor)
-    }
+    // MARK: - Viewport
 
     private func viewportRect(center: CGPoint, zoom: Double) -> CGRect {
         let viewportWidth = displaySize.width / zoom
@@ -177,6 +258,8 @@ final class ZoomEngine {
         )
         return CGRect(x: origin.x, y: origin.y, width: viewportWidth, height: viewportHeight)
     }
+
+    // MARK: - Helpers
 
     private func activeKeyframe(at time: TimeInterval) -> ZoomKeyframe? {
         keyframes.last { keyframe in
@@ -213,12 +296,18 @@ final class ZoomEngine {
     }
 }
 
+// MARK: - Automatic Keyframes
+
 func generateAutomaticKeyframes(from events: [CursorEvent]) -> [ZoomKeyframe] {
+    let dragPeriods = detectDragPeriodsForGeneration(from: events)
     var output: [ZoomKeyframe] = []
     var lastClick: TimeInterval = -10
 
     for event in events where event.kind == .leftDown || event.kind == .rightDown {
         guard event.timestamp - lastClick > 1.8 else { continue }
+        if dragPeriods.contains(where: { event.timestamp >= $0.start && event.timestamp <= $0.end }) {
+            continue
+        }
         lastClick = event.timestamp
         output.append(
             ZoomKeyframe(
@@ -234,6 +323,37 @@ func generateAutomaticKeyframes(from events: [CursorEvent]) -> [ZoomKeyframe] {
 
     return output
 }
+
+private func detectDragPeriodsForGeneration(from events: [CursorEvent]) -> [DragPeriod] {
+    let sorted = events.sorted { $0.timestamp < $1.timestamp }
+    var periods: [DragPeriod] = []
+    var downEvent: CursorEvent?
+    var moveCount = 0
+
+    for event in sorted {
+        switch event.kind {
+        case .leftDown, .rightDown:
+            downEvent = event
+            moveCount = 0
+        case .move:
+            if downEvent != nil { moveCount += 1 }
+        case .leftUp, .rightUp:
+            if let down = downEvent, moveCount >= 3 {
+                let duration = event.timestamp - down.timestamp
+                if duration >= 0.12 {
+                    periods.append(DragPeriod(start: down.timestamp, end: event.timestamp))
+                }
+            }
+            downEvent = nil
+            moveCount = 0
+        default:
+            break
+        }
+    }
+    return periods
+}
+
+// MARK: - Easing
 
 private func easeInOutCubic(_ value: Double) -> Double {
     let t = clamped(value, 0, 1)

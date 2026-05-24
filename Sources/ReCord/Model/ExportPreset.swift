@@ -34,15 +34,46 @@ enum ExportPreset: String, Codable, CaseIterable, Identifiable {
 
     func options(for tier: LicenseTier) -> ExportOptions {
         let watermark = tier == .free
+        let zoomRampMultiplier = ReCordStorage.zoomRampMultiplier
+        let zoomSmoothingWindow = ReCordStorage.zoomSmoothingWindow
+        let cameraSmoothingWindow = ReCordStorage.cameraSmoothingWindow
         switch self {
         case .fullHD:
-            return ExportOptions(outputSize: CGSize(width: 1920, height: 1080), codec: .h264, bitrate: 16_000_000, includeWatermark: watermark, followMouse: true, frameRate: 60)
+            return ExportOptions(
+                outputSize: CGSize(width: 1920, height: 1080),
+                codec: .h264, bitrate: 16_000_000,
+                includeWatermark: watermark, followMouse: true, frameRate: 60,
+                zoomRampMultiplier: zoomRampMultiplier,
+                zoomSmoothingWindow: zoomSmoothingWindow,
+                cameraSmoothingWindow: cameraSmoothingWindow
+            )
         case .ultraHD:
-            return ExportOptions(outputSize: CGSize(width: 3840, height: 2160), codec: .hevc, bitrate: 45_000_000, includeWatermark: watermark, followMouse: true, frameRate: 60)
+            return ExportOptions(
+                outputSize: CGSize(width: 3840, height: 2160),
+                codec: .hevc, bitrate: 45_000_000,
+                includeWatermark: watermark, followMouse: true, frameRate: 60,
+                zoomRampMultiplier: zoomRampMultiplier,
+                zoomSmoothingWindow: zoomSmoothingWindow,
+                cameraSmoothingWindow: cameraSmoothingWindow
+            )
         case .vertical:
-            return ExportOptions(outputSize: CGSize(width: 1080, height: 1920), codec: .h264, bitrate: 18_000_000, includeWatermark: watermark, followMouse: true, frameRate: 60)
+            return ExportOptions(
+                outputSize: CGSize(width: 1080, height: 1920),
+                codec: .h264, bitrate: 18_000_000,
+                includeWatermark: watermark, followMouse: true, frameRate: 60,
+                zoomRampMultiplier: zoomRampMultiplier,
+                zoomSmoothingWindow: zoomSmoothingWindow,
+                cameraSmoothingWindow: cameraSmoothingWindow
+            )
         case .square:
-            return ExportOptions(outputSize: CGSize(width: 1080, height: 1080), codec: .h264, bitrate: 12_000_000, includeWatermark: watermark, followMouse: true, frameRate: 60)
+            return ExportOptions(
+                outputSize: CGSize(width: 1080, height: 1080),
+                codec: .h264, bitrate: 12_000_000,
+                includeWatermark: watermark, followMouse: true, frameRate: 60,
+                zoomRampMultiplier: zoomRampMultiplier,
+                zoomSmoothingWindow: zoomSmoothingWindow,
+                cameraSmoothingWindow: cameraSmoothingWindow
+            )
         }
     }
 }

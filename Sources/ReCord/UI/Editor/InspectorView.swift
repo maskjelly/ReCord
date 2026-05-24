@@ -6,116 +6,123 @@ struct InspectorView: View {
     @State private var titleDraft = ""
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            VStack(alignment: .leading, spacing: 4) {
-                TextField("Title", text: $titleDraft)
-                    .font(.title2.bold())
-                    .textFieldStyle(.plain)
-                    .onSubmit {
-                        appState.rename(session, to: titleDraft)
-                    }
-                Text("\(Int(session.displaySize.width))×\(Int(session.displaySize.height)) · \(Int(session.duration))s")
-                    .foregroundStyle(.secondary)
-            }
-
-            Divider()
-
-            GroupBox("Zoom") {
-                VStack(alignment: .leading, spacing: 10) {
-                    Label("Follow mouse during zoom", systemImage: "cursorarrow.motionlines")
-                    Label("Auto zoom on clicks", systemImage: "plus.magnifyingglass")
-                    Label("Drag keyframes on timeline", systemImage: "diamond")
-                    Text("The preview overlay shows the export crop, cursor, and click pulse while the video plays.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text("Shortcut: Cmd+Shift+Z drops a manual zoom marker while recording.")
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 4) {
+                    TextField("Title", text: $titleDraft)
+                        .font(.title3.weight(.semibold))
+                        .textFieldStyle(.plain)
+                        .onSubmit {
+                            appState.rename(session, to: titleDraft)
+                        }
+                    Text("\(Int(session.displaySize.width))×\(Int(session.displaySize.height))  ·  \(Int(session.duration))s")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
 
-            GroupBox("Export") {
-                VStack(alignment: .leading, spacing: 10) {
-                    let gate = FeatureGate(tier: appState.licenseManager.tier)
+                Divider()
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Export")
+                        .font(.subheadline.weight(.semibold))
+
                     Picker("Preset", selection: $appState.exportPreset) {
                         ForEach(ExportPreset.allCases) { preset in
                             Text(preset.title).tag(preset)
                         }
                     }
                     .pickerStyle(.segmented)
+                    .labelsHidden()
 
-                    Text(appState.exportPreset.detail)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    HStack {
+                        Text(appState.exportPreset.detail)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        if appState.exportPreset.requiresPro && appState.licenseManager.tier != .pro {
+                            Text("Pro")
+                                .font(.caption2.weight(.semibold))
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.orange.opacity(0.15), in: Capsule())
+                                .foregroundStyle(.orange)
+                        }
+                    }
 
-                    Label(gate.includesWatermark ? "Watermark enabled" : "No watermark", systemImage: gate.includesWatermark ? "drop" : "checkmark.seal")
-
-                    Button("Export MP4") {
+                    Button {
                         Task { await appState.exportSelectedSession() }
+                    } label: {
+                        HStack {
+                            Image(systemName: "square.and.arrow.up")
+                            Text("Export MP4")
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(appState.isExporting || (appState.exportPreset.requiresPro && appState.licenseManager.tier != .pro))
+                    .disabled(appState.isExporting)
 
                     if appState.isExporting {
-                        ProgressView(value: appState.exportProgress) {
-                            Text("Exporting \(Int(appState.exportProgress * 100))%")
-                        }
+                        ProgressView(value: appState.exportProgress)
+                            .progressViewStyle(.linear)
+                            .tint(.blue)
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
 
-            if !appState.exportLogLines.isEmpty {
-                GroupBox("Export Log") {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 4) {
-                            ForEach(Array(appState.exportLogLines.enumerated()), id: \.offset) { _, line in
-                                Text(line)
-                                    .font(.system(.caption2, design: .monospaced))
-                                    .foregroundStyle(.secondary)
-                                    .textSelection(.enabled)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                if !appState.exportLogLines.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Log")
+                            .font(.subheadline.weight(.semibold))
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 3) {
+                                ForEach(Array(appState.exportLogLines.enumerated()), id: \.offset) { _, line in
+                                    Text(line)
+                                        .font(.system(.caption2, design: .monospaced))
+                                        .foregroundStyle(.secondary)
+                                        .textSelection(.enabled)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
                             }
                         }
+                        .frame(height: 90)
                     }
-                    .frame(height: 110)
                 }
-            }
 
-            if let exported = session.exportedVideoURL {
-                GroupBox("Last Export") {
+                if let exported = session.exportedVideoURL {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(exported.path)
+                        Text("Last Export")
+                            .font(.subheadline.weight(.semibold))
+                        Text(exported.lastPathComponent)
                             .font(.caption)
-                            .textSelection(.enabled)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
                         Button("Reveal in Finder") {
                             NSWorkspace.shared.activateFileViewerSelecting([exported])
                         }
+                        .controlSize(.small)
                     }
                 }
-            }
 
-            GroupBox("Library") {
+                Divider()
+
                 VStack(alignment: .leading, spacing: 10) {
-                    Button("Reveal Recording") {
+                    Button {
                         appState.reveal(session)
+                    } label: {
+                        Label("Reveal Recording", systemImage: "folder")
                     }
-                    Button("Delete Recording", role: .destructive) {
-                        appState.delete(session)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
+                    .controlSize(.small)
 
-            Spacer()
-        }
-        .padding()
-        .onAppear {
-            titleDraft = session.title
-        }
-        .onChange(of: session.id) { _ in
-            titleDraft = session.title
+                    Button(role: .destructive) {
+                        appState.delete(session)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .controlSize(.small)
+                }
+
+                Spacer(minLength: 20)
+            }
+            .padding(16)
         }
     }
 }

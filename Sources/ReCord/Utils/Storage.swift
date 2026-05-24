@@ -2,6 +2,9 @@ import Foundation
 
 enum ReCordStorage {
     private static let recordingDirectoryKey = "recordingDirectoryPath"
+    private static let zoomRampMultiplierKey = "zoomRampMultiplier"
+    private static let zoomSmoothingWindowKey = "zoomSmoothingWindow"
+    private static let cameraSmoothingWindowKey = "cameraSmoothingWindow"
 
     static var applicationSupportDirectory: URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -51,5 +54,31 @@ enum ReCordStorage {
         } catch {
             return []
         }
+    }
+
+    // MARK: - Export Smoothness Settings
+
+    static var zoomRampMultiplier: Double {
+        get {
+            let value = UserDefaults.standard.double(forKey: zoomRampMultiplierKey)
+            return value > 0 ? value : 1.5
+        }
+        set { UserDefaults.standard.set(newValue, forKey: zoomRampMultiplierKey) }
+    }
+
+    static var zoomSmoothingWindow: Double {
+        get {
+            let value = UserDefaults.standard.double(forKey: zoomSmoothingWindowKey)
+            return value >= 0 ? value : 1.0
+        }
+        set { UserDefaults.standard.set(newValue, forKey: zoomSmoothingWindowKey) }
+    }
+
+    static var cameraSmoothingWindow: Double {
+        get {
+            let value = UserDefaults.standard.double(forKey: cameraSmoothingWindowKey)
+            return value > 0 ? value : 2.0
+        }
+        set { UserDefaults.standard.set(newValue, forKey: cameraSmoothingWindowKey) }
     }
 }

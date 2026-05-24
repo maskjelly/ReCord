@@ -4,24 +4,29 @@ struct RecordingHUD: View {
     @EnvironmentObject private var appState: AppState
 
     var body: some View {
-        HStack(spacing: 12) {
-            Circle()
-                .fill(.red)
-                .frame(width: 10, height: 10)
-                .shadow(color: .red.opacity(0.7), radius: 8)
+        HStack(spacing: 10) {
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(.red)
+                    .frame(width: 8, height: 8)
+                    .shadow(color: .red.opacity(0.6), radius: 6)
+                Text("Recording")
+                    .font(.subheadline.weight(.medium))
+            }
 
-            Text("Recording")
-                .font(.headline)
-
-            Button("Stop") {
+            Button {
                 Task { await appState.stopRecording() }
+            } label: {
+                Image(systemName: "stop.fill")
+                    .font(.caption)
             }
             .buttonStyle(.borderedProminent)
             .tint(.red)
+            .controlSize(.small)
         }
-        .padding(.horizontal, 18)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
         .background(.ultraThinMaterial, in: Capsule())
-        .shadow(radius: 18)
+        .shadow(radius: 16)
     }
 }

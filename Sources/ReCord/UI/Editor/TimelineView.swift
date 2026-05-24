@@ -8,19 +8,21 @@ struct TimelineView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Timeline")
-                    .font(.headline)
+                    .font(.subheadline.weight(.semibold))
                 Spacer()
-                Button("Add Manual Zoom") {
+                Button {
                     appState.addManualZoom(at: session.duration * 0.5)
+                } label: {
+                    Label("Add Marker", systemImage: "plus.diamond")
                 }
-                .buttonStyle(.bordered)
+                .controlSize(.small)
             }
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.secondary.opacity(0.16))
-                        .frame(height: 54)
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.secondary.opacity(0.1))
+                        .frame(height: 48)
 
                     ForEach(session.zoomKeyframes) { keyframe in
                         KeyframeMarker(keyframe: keyframe, session: session, width: proxy.size.width)
@@ -28,15 +30,16 @@ struct TimelineView: View {
 
                     ForEach(session.cursorEvents.filter { $0.kind == .leftDown || $0.kind == .rightDown }.prefix(80)) { event in
                         Rectangle()
-                            .fill(.blue.opacity(0.35))
-                            .frame(width: 2, height: 30)
+                            .fill(.blue.opacity(0.25))
+                            .frame(width: 1.5, height: 24)
                             .offset(x: xOffset(for: event.timestamp, width: proxy.size.width), y: 12)
                     }
                 }
             }
-            .frame(height: 62)
+            .frame(height: 56)
         }
-        .padding()
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
     }
 
     private func xOffset(for time: TimeInterval, width: CGFloat) -> CGFloat {
@@ -54,9 +57,9 @@ private struct KeyframeMarker: View {
     var body: some View {
         Diamond()
             .fill(keyframe.source == .manual ? Color.orange : Color.yellow)
-            .frame(width: 18, height: 18)
-            .shadow(radius: 4)
-            .offset(x: xOffset - 9, y: 18)
+            .frame(width: 14, height: 14)
+            .shadow(radius: 3)
+            .offset(x: xOffset - 7, y: 17)
             .gesture(
                 DragGesture().onChanged { value in
                     let normalized = max(0, min(1, Double((xOffset + value.translation.width) / width)))
