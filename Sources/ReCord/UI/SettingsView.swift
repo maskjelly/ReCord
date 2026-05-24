@@ -6,11 +6,21 @@ struct SettingsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 32) {
-                header("Smoothness")
-                    .padding(.top, 8)
+            VStack(alignment: .leading, spacing: 36) {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(MC.signal)
+                            .frame(width: 4, height: 4)
+                        Text("Smoothness")
+                            .mcEyebrow()
+                    }
+                    Text("Control how zooms and camera follow behave.")
+                        .mcBody(size: 13)
+                }
+                .padding(.top, 8)
 
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 28) {
                     sliderRow(
                         title: "Zoom Duration",
                         value: $appState.zoomRampMultiplier,
@@ -40,27 +50,43 @@ struct SettingsView: View {
                 }
 
                 Divider()
+                    .background(MC.border)
 
-                header("License")
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(MC.signal)
+                            .frame(width: 4, height: 4)
+                        Text("License")
+                            .mcEyebrow()
+                    }
+                }
+
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         Text("Tier")
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 13, design: .rounded))
+                            .foregroundStyle(MC.textMuted)
                         Spacer()
                         Text(appState.licenseManager.tier.rawValue.capitalized)
-                            .fontWeight(.medium)
+                            .font(MC.label(14))
+                            .foregroundStyle(MC.textPrimary)
                     }
                     if !appState.licenseManager.licensedEmail.isEmpty {
                         HStack {
                             Text("Licensed To")
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 13, design: .rounded))
+                                .foregroundStyle(MC.textMuted)
                             Spacer()
                             Text(appState.licenseManager.licensedEmail)
-                                .fontWeight(.medium)
+                                .font(MC.label(14))
+                                .foregroundStyle(MC.textPrimary)
                         }
                     }
                     TextField("Paste license token", text: $licenseKey, axis: .vertical)
+                        .font(.system(size: 13, design: .rounded))
                         .textFieldStyle(.roundedBorder)
+                        .foregroundStyle(MC.textPrimary)
                     HStack(spacing: 12) {
                         Button("Activate") {
                             do {
@@ -70,11 +96,12 @@ struct SettingsView: View {
                                 appState.errorMessage = error.localizedDescription
                             }
                         }
+                        .buttonStyle(SmallPillButton())
                         Button("Deactivate") {
                             try? appState.licenseManager.deactivate()
                         }
+                        .buttonStyle(SmallPillButton())
                     }
-                    .controlSize(.small)
                 }
 
                 Spacer(minLength: 20)
@@ -83,11 +110,7 @@ struct SettingsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(width: 480)
-    }
-
-    private func header(_ text: String) -> some View {
-        Text(text)
-            .font(.system(.title3, design: .rounded).weight(.semibold))
+        .background(MC.surface)
     }
 
     private func sliderRow(
@@ -102,19 +125,20 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(title)
-                    .font(.subheadline.weight(.medium))
+                    .font(MC.label(13))
+                    .foregroundStyle(MC.textPrimary)
                 Spacer()
                 Text(formatter(value.wrappedValue))
-                    .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(.secondary)
+                    .font(MC.label(13).monospacedDigit())
+                    .foregroundStyle(MC.textMuted)
             }
             Slider(value: value, in: range, step: step) { _ in
                 onChange(value.wrappedValue)
             }
+            .tint(MC.signal)
             Text(description)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(.system(size: 11, design: .rounded))
+                .foregroundStyle(MC.textMuted)
         }
     }
-
 }

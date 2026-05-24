@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/master.swiftdeps"
+  },
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/runner.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/runner.dia"
+  }
+}

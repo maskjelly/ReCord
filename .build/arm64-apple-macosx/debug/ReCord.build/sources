@@ -20,6 +20,7 @@
 /Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift
 /Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift
 /Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift
+/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift
 /Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift
 /Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift
 /Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DerivedSources/resource_bundle_accessor.swift

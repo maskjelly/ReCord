@@ -7,122 +7,140 @@ struct InspectorView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 28) {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(MC.signal)
+                            .frame(width: 4, height: 4)
+                        Text("Project")
+                            .mcEyebrow()
+                    }
                     TextField("Title", text: $titleDraft)
-                        .font(.title3.weight(.semibold))
+                        .mcHeadline(size: 20)
                         .textFieldStyle(.plain)
                         .onSubmit {
                             appState.rename(session, to: titleDraft)
                         }
                     Text("\(Int(session.displaySize.width))×\(Int(session.displaySize.height))  ·  \(Int(session.duration))s")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(.system(size: 12, design: .rounded))
+                        .foregroundStyle(MC.textMuted)
                 }
 
                 Divider()
+                    .background(MC.border)
 
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Export")
-                        .font(.subheadline.weight(.semibold))
-
-                    Picker("Preset", selection: $appState.exportPreset) {
-                        ForEach(ExportPreset.allCases) { preset in
-                            Text(preset.title).tag(preset)
-                        }
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(MC.signal)
+                            .frame(width: 4, height: 4)
+                        Text("Export")
+                            .mcEyebrow()
                     }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
 
                     HStack {
-                        Text(appState.exportPreset.detail)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        Text("1080p")
+                            .font(MC.label(14))
+                            .foregroundStyle(MC.textPrimary)
                         Spacer()
-                        if appState.exportPreset.requiresPro && appState.licenseManager.tier != .pro {
-                            Text("Pro")
-                                .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.orange.opacity(0.15), in: Capsule())
-                                .foregroundStyle(.orange)
-                        }
+                        Text("1920×1080 H.264")
+                            .font(.system(size: 12, design: .rounded))
+                            .foregroundStyle(MC.textMuted)
                     }
+                    .padding(10)
+                    .background(MC.card)
+                    .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
 
                     Button {
                         Task { await appState.exportSelectedSession() }
                     } label: {
-                        HStack {
+                        HStack(spacing: 6) {
                             Image(systemName: "square.and.arrow.up")
+                                .font(.system(size: 12, weight: .semibold))
                             Text("Export MP4")
+                                .font(MC.label(14))
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(SignalPillButton())
                     .disabled(appState.isExporting)
 
                     if appState.isExporting {
                         ProgressView(value: appState.exportProgress)
                             .progressViewStyle(.linear)
-                            .tint(.blue)
+                            .tint(MC.signal)
                     }
                 }
 
                 if !appState.exportLogLines.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Log")
-                            .font(.subheadline.weight(.semibold))
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(MC.signal)
+                                .frame(width: 4, height: 4)
+                            Text("Log")
+                                .mcEyebrow()
+                        }
                         ScrollView {
                             VStack(alignment: .leading, spacing: 3) {
                                 ForEach(Array(appState.exportLogLines.enumerated()), id: \.offset) { _, line in
                                     Text(line)
                                         .font(.system(.caption2, design: .monospaced))
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(MC.textMuted)
                                         .textSelection(.enabled)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                         }
-                        .frame(height: 90)
+                        .frame(height: 80)
                     }
                 }
 
                 if let exported = session.exportedVideoURL {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Last Export")
-                            .font(.subheadline.weight(.semibold))
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(MC.signal)
+                                .frame(width: 4, height: 4)
+                            Text("Last Export")
+                                .mcEyebrow()
+                        }
                         Text(exported.lastPathComponent)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 12, design: .rounded))
+                            .foregroundStyle(MC.textMuted)
                             .lineLimit(1)
                         Button("Reveal in Finder") {
                             NSWorkspace.shared.activateFileViewerSelecting([exported])
                         }
-                        .controlSize(.small)
+                        .buttonStyle(SmallPillButton())
                     }
                 }
 
                 Divider()
+                    .background(MC.border)
 
                 VStack(alignment: .leading, spacing: 10) {
                     Button {
                         appState.reveal(session)
                     } label: {
                         Label("Reveal Recording", systemImage: "folder")
+                            .font(MC.label(12))
                     }
-                    .controlSize(.small)
+                    .buttonStyle(SmallPillButton())
 
                     Button(role: .destructive) {
                         appState.delete(session)
                     } label: {
                         Label("Delete", systemImage: "trash")
+                            .font(MC.label(12))
                     }
-                    .controlSize(.small)
+                    .buttonStyle(SmallPillButton())
                 }
 
                 Spacer(minLength: 20)
             }
-            .padding(16)
+            .padding(20)
         }
     }
 }

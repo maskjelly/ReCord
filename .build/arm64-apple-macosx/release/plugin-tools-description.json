@@ -129,6 +129,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift"
         },
         {
@@ -178,6 +182,7 @@
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/RecordingHUD.swift.o",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/MainWindow.swift.o",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/SettingsView.swift.o",
+        "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DesignSystem.swift.o",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/PermissionsManager.swift.o",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/Storage.swift.o",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/resource_bundle_accessor.swift.o"
@@ -326,6 +331,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DesignSystem.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/PermissionsManager.swift.o"
         },
         {
@@ -365,6 +374,7 @@
         "/Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift",
         "/Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift",
         "/Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift",
+        "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift",
         "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift",
         "/Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift",
         "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DerivedSources/resource_bundle_accessor.swift"
@@ -605,6 +615,7 @@
       "/Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift",
       "/Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift",
       "/Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift",
+      "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift",
       "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift",
       "/Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift",
       "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DerivedSources/resource_bundle_accessor.swift",
@@ -924,6 +935,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift"
         },
         {
@@ -963,6 +978,10 @@
         {
           "kind" : "file",
           "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/CursorTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DesignSystem.swift.o"
         },
         {
           "kind" : "file",
@@ -1087,6 +1106,10 @@
         {
           "kind" : "file",
           "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/CursorTracker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCord.build/DesignSystem.swift.o"
         },
         {
           "kind" : "file",

@@ -1,0 +1,99 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "PackageStructure": ["<PackageStructure>"]
+  "ReCord-arm64-apple-macosx26.0-debug.module": ["<ReCord-arm64-apple-macosx26.0-debug.module>"]
+  "ReCordPackageTests-arm64-apple-macosx26.0-debug.module": ["<ReCordPackageTests-arm64-apple-macosx26.0-debug.module>"]
+  "ReCordTests-arm64-apple-macosx26.0-debug.module": ["<ReCordTests-arm64-apple-macosx26.0-debug.module>"]
+  "main": ["<ReCord-arm64-apple-macosx26.0-debug.module>"]
+  "test": ["<ReCord-arm64-apple-macosx26.0-debug.module>","<ReCordTests-arm64-apple-macosx26.0-debug.module>"]
+default: "main"
+nodes:
+  "/Users/smol/dev/ReCord/Sources/ReCord/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/smol/dev/ReCord/Tests/ReCordTests/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/Users/smol/dev/ReCord/Sources/ReCord/App/AppState.swift","/Users/smol/dev/ReCord/Sources/ReCord/App/ReCordApp.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/CursorTracker.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/MicrophoneRecorder.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/ScreenRecorder.swift","/Users/smol/dev/ReCord/Sources/ReCord/Licensing/LicenseManager.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/CaptureTarget.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/CursorEvent.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/ExportPreset.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/GeometryModels.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/RecordingSession.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/ZoomKeyframe.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/CursorRenderer.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/TransformPipeline.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/VideoExporter.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/ZoomEngine.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/EditorView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/InspectorView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/TimelineView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DerivedSources/resource_bundle_accessor.swift"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/sources"]
+    description: "Write auxiliary file /Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/sources"
+
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.derived/runner.swift"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/sources"]
+    description: "Write auxiliary file /Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/sources"
+
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/Users/smol/dev/ReCord/Tests/ReCordTests/ReCordSmokeTests.swift"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/sources"]
+    description: "Write auxiliary file /Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/sources"
+
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord_ReCord.bundle/AppIcon.icns":
+    tool: copy-tool
+    inputs: ["/Users/smol/dev/ReCord/Sources/ReCord/Resources/AppIcon.icns"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord_ReCord.bundle/AppIcon.icns"]
+    description: "Copying /Users/smol/dev/ReCord/Sources/ReCord/Resources/AppIcon.icns"
+
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt":
+    tool: write-auxiliary-file
+    inputs: ["<swift-get-version>","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"]
+    always-out-of-date: "true"
+    description: "Write auxiliary file /Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+
+  "<ReCord-arm64-apple-macosx26.0-debug.module>":
+    tool: phony
+    inputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCord.swiftmodule"]
+    outputs: ["<ReCord-arm64-apple-macosx26.0-debug.module>"]
+
+  "<ReCordPackageTests-arm64-apple-macosx26.0-debug.module>":
+    tool: phony
+    inputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordPackageTests.swiftmodule"]
+    outputs: ["<ReCordPackageTests-arm64-apple-macosx26.0-debug.module>"]
+
+  "<ReCordTests-arm64-apple-macosx26.0-debug.module>":
+    tool: phony
+    inputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordTests.swiftmodule"]
+    outputs: ["<ReCordTests-arm64-apple-macosx26.0-debug.module>"]
+
+  "C.ReCord-arm64-apple-macosx26.0-debug.module":
+    tool: shell
+    inputs: ["/Users/smol/dev/ReCord/Sources/ReCord/App/AppState.swift","/Users/smol/dev/ReCord/Sources/ReCord/App/ReCordApp.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/CursorTracker.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/MicrophoneRecorder.swift","/Users/smol/dev/ReCord/Sources/ReCord/Capture/ScreenRecorder.swift","/Users/smol/dev/ReCord/Sources/ReCord/Licensing/LicenseManager.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/CaptureTarget.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/CursorEvent.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/ExportPreset.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/GeometryModels.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/RecordingSession.swift","/Users/smol/dev/ReCord/Sources/ReCord/Model/ZoomKeyframe.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/CursorRenderer.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/TransformPipeline.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/VideoExporter.swift","/Users/smol/dev/ReCord/Sources/ReCord/Processing/ZoomEngine.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/EditorView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/InspectorView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/TimelineView.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift","/Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift","/Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DerivedSources/resource_bundle_accessor.swift","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt","<ReCord-arm64-apple-macosx26.0-debug.module-resources>","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/sources"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCord.swiftmodule"]
+    description: "Compiling Swift Module 'ReCord' (26 sources)"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-module-name","ReCord","-emit-dependencies","-emit-module","-emit-module-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCord.swiftmodule","-output-file-map","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/output-file-map.json","-incremental","@/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/sources","-I","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx13.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-Onone","-enable-testing","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE","-module-cache-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-Xfrontend","-entry-point-function-name","-Xfrontend","ReCord_main","-swift-version","5","-Xfrontend","-experimental-lazy-typecheck","-Xfrontend","-experimental-skip-all-function-bodies","-Xfrontend","-experimental-allow-module-with-compiler-errors","-Xfrontend","-empty-abi-descriptor","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","record"]
+
+  "C.ReCordPackageTests-arm64-apple-macosx26.0-debug.module":
+    tool: shell
+    inputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.derived/runner.swift","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordTests.swiftmodule","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/sources"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordPackageTests.swiftmodule"]
+    description: "Compiling Swift Module 'ReCordPackageTests' (1 sources)"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-module-name","ReCordPackageTests","-emit-dependencies","-emit-module","-emit-module-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordPackageTests.swiftmodule","-output-file-map","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/output-file-map.json","-parse-as-library","-incremental","@/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/sources","-I","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx13.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordPackageTests.build/include/ReCordPackageTests-Swift.h","-Xfrontend","-experimental-lazy-typecheck","-Xfrontend","-experimental-skip-all-function-bodies","-Xfrontend","-experimental-allow-module-with-compiler-errors","-Xfrontend","-empty-abi-descriptor","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","record"]
+
+  "C.ReCordTests-arm64-apple-macosx26.0-debug.module":
+    tool: shell
+    inputs: ["/Users/smol/dev/ReCord/Tests/ReCordTests/ReCordSmokeTests.swift","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCord.swiftmodule","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/sources"]
+    outputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordTests.swiftmodule"]
+    description: "Compiling Swift Module 'ReCordTests' (1 sources)"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-module-name","ReCordTests","-emit-dependencies","-emit-module","-emit-module-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules/ReCordTests.swiftmodule","-output-file-map","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/output-file-map.json","-parse-as-library","-incremental","@/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCordTests.build/sources","-I","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx14.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-swift-version","5","-Xfrontend","-experimental-lazy-typecheck","-Xfrontend","-experimental-skip-all-function-bodies","-Xfrontend","-experimental-allow-module-with-compiler-errors","-Xfrontend","-empty-abi-descriptor","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","record"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/Users/smol/dev/ReCord/Sources/ReCord/","/Users/smol/dev/ReCord/Tests/ReCordTests/","/Users/smol/dev/ReCord/Package.swift","/Users/smol/dev/ReCord/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+
+  "ReCord-arm64-apple-macosx26.0-debug.module-resources":
+    tool: phony
+    inputs: ["/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord_ReCord.bundle/AppIcon.icns"]
+    outputs: ["<ReCord-arm64-apple-macosx26.0-debug.module-resources>"]
+

@@ -5,23 +5,29 @@ struct TimelineView: View {
     let session: RecordingSession
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Timeline")
-                    .font(.subheadline.weight(.semibold))
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(MC.signal)
+                        .frame(width: 4, height: 4)
+                    Text("Timeline")
+                        .mcEyebrow()
+                }
                 Spacer()
                 Button {
                     appState.addManualZoom(at: session.duration * 0.5)
                 } label: {
-                    Label("Add Marker", systemImage: "plus.diamond")
+                    Label("Marker", systemImage: "plus.diamond")
+                        .font(MC.label(11))
                 }
-                .controlSize(.small)
+                .buttonStyle(SmallPillButton())
             }
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.secondary.opacity(0.1))
+                    RoundedRectangle(cornerRadius: MC.radiusSmall)
+                        .fill(MC.elevated)
                         .frame(height: 48)
 
                     ForEach(session.zoomKeyframes) { keyframe in
@@ -30,7 +36,7 @@ struct TimelineView: View {
 
                     ForEach(session.cursorEvents.filter { $0.kind == .leftDown || $0.kind == .rightDown }.prefix(80)) { event in
                         Rectangle()
-                            .fill(.blue.opacity(0.25))
+                            .fill(MC.link.opacity(0.3))
                             .frame(width: 1.5, height: 24)
                             .offset(x: xOffset(for: event.timestamp, width: proxy.size.width), y: 12)
                     }
@@ -38,7 +44,7 @@ struct TimelineView: View {
             }
             .frame(height: 56)
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 20)
         .padding(.vertical, 12)
     }
 
@@ -56,7 +62,7 @@ private struct KeyframeMarker: View {
 
     var body: some View {
         Diamond()
-            .fill(keyframe.source == .manual ? Color.orange : Color.yellow)
+            .fill(keyframe.source == .manual ? MC.signal : MC.lightSignal)
             .frame(width: 14, height: 14)
             .shadow(radius: 3)
             .offset(x: xOffset - 7, y: 17)

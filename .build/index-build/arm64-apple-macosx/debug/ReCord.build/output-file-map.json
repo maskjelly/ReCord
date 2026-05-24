@@ -1,0 +1,187 @@
+{
+  "": {
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/master.swiftdeps"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/App/AppState.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/AppState.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/AppState.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/AppState~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/AppState.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/AppState.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/App/ReCordApp.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ReCordApp.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ReCordApp.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ReCordApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ReCordApp.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ReCordApp.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Capture/CursorTracker.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorTracker.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorTracker.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorTracker~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorTracker.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorTracker.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Capture/MicrophoneRecorder.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MicrophoneRecorder.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MicrophoneRecorder.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MicrophoneRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MicrophoneRecorder.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MicrophoneRecorder.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Capture/ScreenRecorder.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ScreenRecorder.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ScreenRecorder.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ScreenRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ScreenRecorder.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ScreenRecorder.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Licensing/LicenseManager.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/LicenseManager.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/LicenseManager.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/LicenseManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/LicenseManager.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/LicenseManager.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/CaptureTarget.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CaptureTarget.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CaptureTarget.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CaptureTarget~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CaptureTarget.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CaptureTarget.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/CursorEvent.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorEvent.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorEvent.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorEvent~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorEvent.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorEvent.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/ExportPreset.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ExportPreset.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ExportPreset.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ExportPreset~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ExportPreset.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ExportPreset.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/GeometryModels.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/GeometryModels.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/GeometryModels.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/GeometryModels~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/GeometryModels.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/GeometryModels.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/RecordingSession.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingSession.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingSession.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingSession~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingSession.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingSession.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Model/ZoomKeyframe.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomKeyframe.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomKeyframe.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomKeyframe~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomKeyframe.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomKeyframe.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Processing/CursorRenderer.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorRenderer.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorRenderer.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorRenderer~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorRenderer.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/CursorRenderer.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Processing/TransformPipeline.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TransformPipeline.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TransformPipeline.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TransformPipeline~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TransformPipeline.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TransformPipeline.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Processing/VideoExporter.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/VideoExporter.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/VideoExporter.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/VideoExporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/VideoExporter.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/VideoExporter.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Processing/ZoomEngine.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomEngine.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomEngine.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomEngine~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomEngine.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/ZoomEngine.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/EditorView.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/EditorView.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/EditorView.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/EditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/EditorView.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/EditorView.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/InspectorView.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/InspectorView.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/InspectorView.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/InspectorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/InspectorView.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/InspectorView.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/Editor/TimelineView.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TimelineView.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TimelineView.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TimelineView~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TimelineView.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/TimelineView.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/HUD/RecordingHUD.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingHUD.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingHUD.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingHUD~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingHUD.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/RecordingHUD.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/MainWindow.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MainWindow.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MainWindow.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MainWindow~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MainWindow.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/MainWindow.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/UI/SettingsView.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/SettingsView.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/SettingsView.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/SettingsView~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/SettingsView.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/SettingsView.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DesignSystem~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.dia"
+  },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Utils/Storage.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/Storage.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/Storage.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/Storage~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/Storage.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/Storage.dia"
+  },
+  "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/resource_bundle_accessor.d",
+    "object": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/resource_bundle_accessor.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/index-build/arm64-apple-macosx/debug/ReCord.build/resource_bundle_accessor.dia"
+  }
+}

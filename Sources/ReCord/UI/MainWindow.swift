@@ -12,7 +12,7 @@ struct MainWindow: View {
                 EditorView()
                 if appState.isRecording {
                     RecordingHUD()
-                        .padding(.top, 20)
+                        .padding(.top, 24)
                 }
             }
         }
@@ -23,26 +23,29 @@ struct MainWindow: View {
                         Task { await appState.stopRecording() }
                     } label: {
                         Image(systemName: "stop.fill")
+                            .font(.system(size: 14, weight: .semibold))
                     }
-                    .help("Stop Recording")
+                    .help("Stop")
                     .buttonStyle(.borderedProminent)
-                    .tint(.red)
+                    .tint(MC.signal)
                 } else {
                     Button {
                         isShowingRecordingSetup = true
                         Task { await appState.loadCaptureTargets() }
                     } label: {
                         Image(systemName: "record.circle")
+                            .font(.system(size: 14, weight: .semibold))
                     }
-                    .help("Start Recording")
+                    .help("Record")
                     .buttonStyle(.borderedProminent)
-                    .tint(.red)
+                    .tint(MC.signal)
                 }
 
                 Button {
                     Task { await appState.exportSelectedSession() }
                 } label: {
                     Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 14, weight: .semibold))
                 }
                 .help("Export")
                 .disabled(appState.selectedSession == nil || appState.isExporting)
@@ -65,50 +68,63 @@ private struct RecordingSetupView: View {
     @Binding var isPresented: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("New Recording")
-                    .font(.title2.weight(.semibold))
+        VStack(alignment: .leading, spacing: 32) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(MC.signal)
+                        .frame(width: 8, height: 8)
+                    Text("New Recording")
+                        .mcEyebrow()
+                }
                 Text("Choose where to save and what to capture.")
-                    .foregroundStyle(.secondary)
+                    .mcBody(size: 14)
             }
 
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 20) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Save Location")
-                        .font(.subheadline.weight(.medium))
+                        .font(MC.label(13))
+                        .foregroundStyle(MC.textPrimary)
                     HStack(spacing: 12) {
                         Image(systemName: "folder")
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 14))
+                            .foregroundStyle(MC.textMuted)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(appState.recordingSaveDirectory?.lastPathComponent ?? "No folder")
-                                .font(.callout.weight(.medium))
+                                .font(MC.label(14))
+                                .foregroundStyle(MC.textPrimary)
                             Text(appState.recordingSaveDirectory?.path ?? "Choose a folder")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 11, design: .rounded))
+                                .foregroundStyle(MC.textMuted)
                                 .lineLimit(1)
                         }
                         Spacer()
                         Button("Choose...") {
                             appState.chooseRecordingDirectory()
                         }
-                        .controlSize(.small)
+                        .buttonStyle(SmallPillButton())
                     }
                     .padding(12)
-                    .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+                    .background(MC.elevated)
+                    .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Capture Source")
-                        .font(.subheadline.weight(.medium))
+                        .font(MC.label(13))
+                        .foregroundStyle(MC.textPrimary)
                     if appState.captureTargets.isEmpty {
                         HStack(spacing: 8) {
                             ProgressView()
                                 .controlSize(.small)
                             Text("Loading screens and windows...")
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 12, design: .rounded))
+                                .foregroundStyle(MC.textMuted)
                         }
                         .padding(12)
+                        .background(MC.elevated)
+                        .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
                     } else {
                         Picker("", selection: $appState.selectedCaptureTargetID) {
                             ForEach(appState.captureTargets) { target in
@@ -118,7 +134,8 @@ private struct RecordingSetupView: View {
                         }
                         .pickerStyle(.menu)
                         .padding(12)
-                        .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
+                        .background(MC.elevated)
+                        .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
                     }
                 }
             }
@@ -129,23 +146,23 @@ private struct RecordingSetupView: View {
                 Button("Refresh") {
                     Task { await appState.loadCaptureTargets() }
                 }
-                .controlSize(.small)
+                .buttonStyle(SmallPillButton())
                 Spacer()
                 Button("Cancel", role: .cancel) {
                     isPresented = false
                 }
-                .controlSize(.small)
+                .buttonStyle(SmallPillButton())
                 Button("Start") {
                     isPresented = false
                     Task { await appState.startRecording() }
                 }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
+                .buttonStyle(SignalPillButton())
                 .disabled(appState.recordingSaveDirectory == nil || appState.selectedCaptureTarget == nil)
             }
         }
-        .padding(28)
-        .frame(width: 520, height: 340)
+        .padding(32)
+        .frame(width: 520, height: 360)
+        .background(MC.surface)
         .task {
             if appState.captureTargets.isEmpty {
                 await appState.loadCaptureTargets()
@@ -159,19 +176,24 @@ private struct SidebarView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("ReCord")
-                    .font(.system(.title, design: .rounded).weight(.bold))
+                    .mcHeadline(size: 24)
                 Text(appState.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 11, design: .rounded))
+                    .foregroundStyle(MC.textMuted)
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 12)
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 16)
 
             PermissionsPanel()
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 12)
+
+            Divider()
+                .background(MC.border)
+                .padding(.horizontal, 16)
                 .padding(.bottom, 8)
 
             List(selection: $appState.selectedSessionID) {
@@ -182,13 +204,17 @@ private struct SidebarView: View {
                     }
                 } header: {
                     HStack {
-                        Text("Recordings")
-                            .font(.caption.weight(.semibold))
-                            .textCase(.uppercase)
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(MC.signal)
+                                .frame(width: 4, height: 4)
+                            Text("Recordings")
+                                .mcEyebrow()
+                        }
                         Spacer()
                         Text("\(appState.sessions.count)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 11, design: .rounded))
+                            .foregroundStyle(MC.textMuted)
                     }
                 }
             }
@@ -197,18 +223,23 @@ private struct SidebarView: View {
 
             Spacer()
 
-            HStack {
+            HStack(spacing: 8) {
                 Image(systemName: appState.licenseManager.tier == .pro ? "checkmark.seal.fill" : "person")
-                    .foregroundStyle(appState.licenseManager.tier == .pro ? .green : .secondary)
+                    .font(.system(size: 10))
+                    .foregroundStyle(appState.licenseManager.tier == .pro ? MC.signal : MC.textMuted)
                 Text(appState.licenseManager.tier.rawValue.capitalized)
-                    .font(.caption.weight(.medium))
+                    .font(MC.label(11))
+                    .foregroundStyle(MC.textMuted)
                 Spacer()
             }
             .padding(12)
-            .background(Color.secondary.opacity(0.06))
+            .background(MC.elevated)
+            .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
+            .padding(.horizontal, 12)
+            .padding(.bottom, 12)
         }
-        .frame(minWidth: 240)
-        .background(Color(nsColor: .controlBackgroundColor))
+        .frame(minWidth: 260)
+        .background(MC.surface)
     }
 }
 
@@ -217,29 +248,33 @@ private struct SessionRow: View {
     @EnvironmentObject private var appState: AppState
 
     var body: some View {
-        HStack(spacing: 10) {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(session.exportedVideoURL != nil ? Color.green.opacity(0.2) : Color.secondary.opacity(0.12))
-                .frame(width: 36, height: 36)
-                .overlay(
-                    Image(systemName: session.exportedVideoURL != nil ? "checkmark" : "film")
-                        .font(.caption)
-                        .foregroundStyle(session.exportedVideoURL != nil ? .green : .secondary)
-                )
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(session.exportedVideoURL != nil ? MC.signal.opacity(0.15) : MC.elevated)
+                    .frame(width: 36, height: 36)
+                Image(systemName: session.exportedVideoURL != nil ? "checkmark" : "film")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(session.exportedVideoURL != nil ? MC.signal : MC.textMuted)
+            }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(session.title)
-                    .font(.subheadline.weight(.medium))
+                    .font(MC.label(13))
+                    .foregroundStyle(MC.textPrimary)
                     .lineLimit(1)
-                Text("\(Int(session.duration))s · \(session.zoomKeyframes.count) markers")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                Text("\(Int(session.duration))s  ·  \(session.zoomKeyframes.count) markers")
+                    .font(.system(size: 11, design: .rounded))
+                    .foregroundStyle(MC.textMuted)
             }
 
             Spacer()
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
+        .padding(.horizontal, 8)
         .contentShape(Rectangle())
+        .background(appState.selectedSessionID == session.id ? MC.elevated : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: MC.radiusSmall))
         .contextMenu {
             Button("Reveal in Finder") { appState.reveal(session) }
             Button("Delete", role: .destructive) { appState.delete(session) }
@@ -251,23 +286,21 @@ private struct PermissionsPanel: View {
     @EnvironmentObject private var appState: AppState
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 6) {
                 Image(systemName: "lock.shield")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 10))
+                    .foregroundStyle(MC.textMuted)
                 Text("Permissions")
-                    .font(.caption.weight(.semibold))
-                    .textCase(.uppercase)
-                    .foregroundStyle(.secondary)
+                    .mcEyebrow()
                 Spacer()
                 Button {
                     Task { await appState.requestPermissions() }
                 } label: {
-                    Text("Request All")
-                        .font(.caption2)
+                    Text("Request")
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
                 }
-                .controlSize(.mini)
+                .buttonStyle(SmallPillButton())
                 .disabled(appState.requiredPermissionsGranted)
             }
 
@@ -289,8 +322,9 @@ private struct PermissionsPanel: View {
                 )
             }
         }
-        .padding(10)
-        .background(Color.secondary.opacity(0.06), in: RoundedRectangle(cornerRadius: 10))
+        .padding(12)
+        .background(MC.elevated)
+        .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
         .onAppear { appState.refreshPermissionStatuses() }
     }
 }
@@ -303,19 +337,20 @@ private struct PermissionRow: View {
     var body: some View {
         HStack(spacing: 6) {
             Circle()
-                .fill(granted ? Color.green : Color.orange)
-                .frame(width: 6, height: 6)
+                .fill(granted ? MC.success : MC.signal)
+                .frame(width: 5, height: 5)
             Text(name)
-                .font(.caption)
+                .font(.system(size: 11, design: .rounded))
+                .foregroundStyle(MC.textSecondary)
             Spacer()
             if !granted {
                 Button {
                     PermissionsManager.openPrivacyPane(pane)
                 } label: {
                     Text("Open")
-                        .font(.caption2)
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
                 }
-                .controlSize(.mini)
+                .buttonStyle(SmallPillButton())
             }
         }
     }

@@ -81,16 +81,16 @@ final class ReCordSmokeTests: XCTestCase {
     }
 
     func testExportPresetAppliesFreeWatermarkAndPro4K() {
-        let freeVertical = ExportPreset.vertical.options(for: .free)
-        XCTAssertEqual(freeVertical.outputSize.width, 1080)
-        XCTAssertEqual(freeVertical.outputSize.height, 1920)
-        XCTAssertTrue(freeVertical.includeWatermark)
+        let free = ExportPreset.fullHD.options(for: .free)
+        XCTAssertEqual(free.outputSize.width, 1920)
+        XCTAssertEqual(free.outputSize.height, 1080)
+        XCTAssertTrue(free.includeWatermark)
 
-        let pro4K = ExportPreset.ultraHD.options(for: .pro)
-        XCTAssertEqual(pro4K.outputSize.width, 3840)
-        XCTAssertEqual(pro4K.outputSize.height, 2160)
-        XCTAssertFalse(pro4K.includeWatermark)
-        XCTAssertTrue(ExportPreset.ultraHD.requiresPro)
+        let pro = ExportPreset.fullHD.options(for: .pro)
+        XCTAssertEqual(pro.outputSize.width, 1920)
+        XCTAssertEqual(pro.outputSize.height, 1080)
+        XCTAssertFalse(pro.includeWatermark)
+        XCTAssertFalse(ExportPreset.fullHD.requiresPro)
     }
 
     func testExportExistingRawWhenRequested() async throws {

@@ -156,6 +156,13 @@
     "swift-dependencies": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/SettingsView.swiftdeps",
     "diagnostics": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/SettingsView.dia"
   },
+  "/Users/smol/dev/ReCord/Sources/ReCord/Utils/DesignSystem.swift": {
+    "dependencies": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.d",
+    "object": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.swift.o",
+    "swiftmodule": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DesignSystem~partial.swiftmodule",
+    "swift-dependencies": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.swiftdeps",
+    "diagnostics": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/DesignSystem.dia"
+  },
   "/Users/smol/dev/ReCord/Sources/ReCord/Utils/PermissionsManager.swift": {
     "dependencies": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.d",
     "object": "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/debug/ReCord.build/PermissionsManager.swift.o",

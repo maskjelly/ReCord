@@ -13,7 +13,6 @@ final class AppState: ObservableObject {
     @Published var exportLogLines: [String] = []
     @Published var statusMessage = "Ready"
     @Published var errorMessage: String?
-    @Published var exportPreset: ExportPreset = .fullHD
     @Published var captureTargets: [CaptureTarget] = []
     @Published var selectedCaptureTargetID: CaptureTarget.ID?
     @Published var recordingSaveDirectory: URL? = ReCordStorage.configuredRecordingDirectory
@@ -72,6 +71,8 @@ final class AppState: ObservableObject {
         accessibilityStatus = PermissionsManager.accessibilityStatus
         microphoneStatus = PermissionsManager.microphoneStatus
     }
+
+
 
     func setZoomRampMultiplier(_ value: Double) {
         let clamped = max(0.2, min(4.0, value))
@@ -252,11 +253,7 @@ final class AppState: ObservableObject {
             statusMessage = "Export blocked"
             return
         }
-        if exportPreset.requiresPro && licenseManager.tier != .pro {
-            errorMessage = "4K export requires ReCord Pro. Choose 1080p, Vertical, or Square for the free tier."
-            statusMessage = "Export blocked"
-            return
-        }
+        let exportPreset = ExportPreset.fullHD
         isExporting = true
         exportProgress = 0
         exportLogLines = []

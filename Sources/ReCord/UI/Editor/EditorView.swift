@@ -10,35 +10,35 @@ struct EditorView: View {
                 VStack(spacing: 0) {
                     VideoPreview(session: session)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.black)
+                        .background(MC.background)
 
                     TimelineView(session: session)
                         .frame(height: 120)
-                        .background(Color(nsColor: .controlBackgroundColor))
+                        .background(MC.surface)
                 }
                 .safeAreaInset(edge: .trailing) {
                     InspectorView(session: session)
                         .frame(width: 260)
-                        .background(Color(nsColor: .controlBackgroundColor))
+                        .background(MC.elevated)
                 }
             } else {
-                VStack(spacing: 12) {
+                VStack(spacing: 16) {
                     Image(systemName: "record.circle")
                         .font(.system(size: 48, weight: .light))
-                        .foregroundStyle(.secondary.opacity(0.6))
+                        .foregroundStyle(MC.textMuted)
                     Text("No Recording")
-                        .font(.title3.weight(.medium))
+                        .mcHeadline(size: 20)
                     Text("Start a recording to create an editable project.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .mcBody(size: 14)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(MC.background)
             }
         }
         .overlay(alignment: .bottom) {
             if appState.isExporting {
                 ExportProgressOverlay()
-                    .padding(.bottom, 24)
+                    .padding(.bottom, 28)
             }
         }
     }
@@ -48,19 +48,20 @@ private struct ExportProgressOverlay: View {
     @EnvironmentObject private var appState: AppState
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Exporting")
-                    .font(.subheadline.weight(.semibold))
+                    .font(MC.label(13))
+                    .foregroundStyle(MC.textPrimary)
                 Spacer()
                 Text("\(Int(appState.exportProgress * 100))%")
-                    .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(.secondary)
+                    .font(MC.label(13).monospacedDigit())
+                    .foregroundStyle(MC.textMuted)
             }
 
             ProgressView(value: appState.exportProgress)
                 .progressViewStyle(.linear)
-                .tint(.blue)
+                .tint(MC.signal)
 
             ScrollViewReader { proxy in
                 ScrollView {
@@ -68,13 +69,13 @@ private struct ExportProgressOverlay: View {
                         ForEach(Array(appState.exportLogLines.enumerated()), id: \.offset) { index, line in
                             Text(line)
                                 .font(.system(.caption2, design: .monospaced))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(MC.textMuted)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .id(index)
                         }
                     }
                 }
-                .frame(height: 80)
+                .frame(height: 72)
                 .onChange(of: appState.exportLogLines.count) { _ in
                     if let last = appState.exportLogLines.indices.last {
                         proxy.scrollTo(last, anchor: .bottom)
@@ -82,10 +83,11 @@ private struct ExportProgressOverlay: View {
                 }
             }
         }
-        .padding(14)
-        .frame(width: 480)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14))
-        .shadow(radius: 20)
+        .padding(16)
+        .frame(width: 440)
+        .background(MC.card)
+        .clipShape(RoundedRectangle(cornerRadius: MC.radiusCard))
+        .mcNavShadow()
     }
 }
 
@@ -108,14 +110,17 @@ private struct VideoPreview: View {
             }
             .overlay(alignment: .topLeading) {
                 HStack(spacing: 6) {
-                    Image(systemName: session.exportedVideoURL == nil ? "eye" : "checkmark.circle.fill")
-                        .font(.caption)
+                    Circle()
+                        .fill(session.exportedVideoURL == nil ? MC.textMuted : MC.success)
+                        .frame(width: 6, height: 6)
                     Text(session.exportedVideoURL == nil ? "Preview" : "Exported")
-                        .font(.caption.weight(.medium))
+                        .font(MC.label(11))
+                        .foregroundStyle(MC.textPrimary.opacity(0.9))
                 }
                 .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.ultraThinMaterial, in: Capsule())
+                .padding(.vertical, 5)
+                .background(MC.background.opacity(0.7))
+                .clipShape(Capsule())
                 .padding()
             }
     }
@@ -203,32 +208,34 @@ private struct ZoomPreviewOverlay: View {
 
             ZStack(alignment: .topLeading) {
                 Rectangle()
-                    .strokeBorder(.white.opacity(0.06), lineWidth: 1)
+                    .strokeBorder(MC.textPrimary.opacity(0.06), lineWidth: 1)
                     .frame(width: fitted.width, height: fitted.height)
                     .offset(x: fitted.minX, y: fitted.minY)
 
                 Rectangle()
-                    .stroke(.white.opacity(0.7), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
-                    .background(Color.white.opacity(0.04))
+                    .stroke(MC.textPrimary.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                    .background(MC.textPrimary.opacity(0.04))
                     .frame(width: viewport.width, height: viewport.height)
                     .offset(x: viewport.minX, y: viewport.minY)
 
                 Circle()
-                    .fill(state.clickPulse > 0 ? Color.blue.opacity(0.3) : Color.clear)
+                    .fill(state.clickPulse > 0 ? MC.lightSignal.opacity(0.4) : Color.clear)
                     .frame(width: 38 + state.clickPulse * 24, height: 38 + state.clickPulse * 24)
                     .offset(x: cursor.x - 19 - state.clickPulse * 12, y: cursor.y - 19 - state.clickPulse * 12)
 
                 Circle()
-                    .fill(.white)
+                    .fill(MC.textPrimary)
                     .frame(width: 6, height: 6)
                     .shadow(radius: 3)
                     .offset(x: cursor.x - 3, y: cursor.y - 3)
 
                 Text("\(String(format: "%.1f", state.zoom))×")
-                    .font(.caption2.weight(.semibold).monospacedDigit())
+                    .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(MC.textPrimary.opacity(0.9))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(.ultraThinMaterial, in: Capsule())
+                    .background(MC.background.opacity(0.7))
+                    .clipShape(Capsule())
                     .offset(x: fitted.minX + 10, y: fitted.maxY - 30)
             }
         }
