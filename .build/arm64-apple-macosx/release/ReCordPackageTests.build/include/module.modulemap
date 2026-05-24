@@ -1,0 +1,3 @@
+module ReCordPackageTests {
+    header "/Users/smol/dev/ReCord/.build/arm64-apple-macosx/release/ReCordPackageTests.build/include/ReCordPackageTests-Swift.h"
+}

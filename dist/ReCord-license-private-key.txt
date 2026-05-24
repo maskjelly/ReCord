@@ -1,0 +1,5 @@
+ReCord Ed25519 license private key
+
+Keep this file secret. Use it to generate Pro license tokens:
+
+LICENSE_PRIVATE_KEY_B64=eq9pgCAj+jByEqn32p/hsuPaYFYnUegOI8jeovYt5Z4= scripts/generate_license_token.swift token customer@example.com pro never
